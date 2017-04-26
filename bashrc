@@ -120,3 +120,6 @@ fi
 source ~/.shell_prompt.sh
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+# Use Neovim as editor
+export EDITOR=/usr/bin/nvim
