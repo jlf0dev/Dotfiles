@@ -25,7 +25,7 @@ if dein#load_state('/home/jlf0/.config/nvim/dein')
 
   call dein#add('neomake/neomake')
 
-  call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 }) 
+  call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 })
   call dein#add('junegunn/fzf.vim', { 'depends': 'fzf' })
 
   " You can specify revision/branch/tag.
@@ -61,7 +61,7 @@ set completeopt-=preview
 " Neomake run on read or write of buffer
 autocmd! BufWritePost,BufReadPost * Neomake
 
-" Fzf set colors 
+" Fzf set colors
 let g:fzf_colors =
 \ { 'fg':      ['fg', 'Normal'],
   \ 'bg':      ['bg', 'Normal'],
@@ -97,7 +97,7 @@ highlight Error ctermbg=NONE ctermfg=203
 " Change ErrorMsg fg color to black
 highlight ErrorMsg ctermfg=black
 " Change deopletes suggestion box to blue
-highlight Pmenu ctermbg=111 
+highlight Pmenu ctermbg=111
 highlight PmenuSel ctermbg=69 ctermfg=black
 " Change parenthesis color to purple
 highlight MatchParen ctermbg=NONE ctermfg=141
@@ -105,6 +105,13 @@ highlight MatchParen ctermbg=NONE ctermfg=141
 highlight SignColumn ctermbg=NONE
 highlight NeomakeWarningSignDefault ctermbg=NONE
 highlight NeomakeErrorSign ctermfg=160 ctermbg=NONE
+" Highlight self in python files
+augroup python
+    autocmd!
+    autocmd FileType python
+                \   syn keyword pythonSelf self
+                \ | highlight def link pythonSelf MatchParen
+augroup end
 
 
 " Vim-airline
@@ -114,24 +121,35 @@ let g:airline_powerline_fonts = 1
 let g:airline_skip_empty_sections = 1
 " -Set theme
 let g:airline_theme='bubblegum'
-
+" Promptline - :PromptlineSnapshot! ~/Dotfiles/shell_prompt.sh airline
 " Promptline from airline
 let g:promptline_preset = {
         \'a' : [ promptline#slices#host() ],
-        \'b' : [ promptline#slices#user() ],
+        \'b' : [ promptline#slices#user(), promptline#slices#python_virtualenv() ],
         \'c' : [ promptline#slices#cwd() ],
         \'y' : [ promptline#slices#vcs_branch() ],
         \'warn' : [ promptline#slices#git_status() ]}
 
 
 " Key Mapping
+let mapleader = "\<Space>"
 " nore = non-recursive mapping
 " -Exit insert mode with jj (<C-[> is used to avoid going down a line)
 inoremap jj <C-[>
+" -H to beginning of line
+nnoremap H 0
+" -L to end of line
+nnoremap L $
 " -Unhighights the last search pattern register by hitting return
-nnoremap <CR> :noh<CR><CR>
+nnoremap <silent> <leader><CR> :noh<CR>
 " -FZF toggle
-noremap <C-p> :FZF<CR>
+nnoremap <silent> <leader>p :FZF<CR>
+" -FZF buffer toggle
+nnoremap <silent> <leader>b :Buffer<CR>
+" -Deoplete tab-complete
+inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
+" -Nerdtree toggle
+nnoremap <silent> <leader>t :NERDTreeToggle<CR>
 
 
 " Python development

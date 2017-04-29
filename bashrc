@@ -123,3 +123,9 @@ source ~/.shell_prompt.sh
 
 # Use Neovim as editor
 export EDITOR=/usr/bin/nvim
+
+# Virtualenvwrapper setup
+export WORKON_HOME=~/.virtualenv
+export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
+export VIRTUALENVWRAPPER_VIRTUALENV=~/.local/bin/virtualenv
+source ~/.local/bin/virtualenvwrapper.sh
