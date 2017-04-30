@@ -96,6 +96,9 @@ highlight TODO ctermbg=NONE ctermfg=207
 highlight Error ctermbg=NONE ctermfg=203
 " Change ErrorMsg fg color to black
 highlight ErrorMsg ctermfg=black
+" Change Command-Mode Tab completion colors
+highlight StatusLine cterm=NONE ctermbg=238 ctermfg=110
+highlight WildMenu cterm=bold ctermbg=110 ctermfg=238
 " Change deopletes suggestion box to blue
 highlight Pmenu ctermbg=111
 highlight PmenuSel ctermbg=69 ctermfg=black
@@ -121,14 +124,30 @@ let g:airline_powerline_fonts = 1
 let g:airline_skip_empty_sections = 1
 " -Set theme
 let g:airline_theme='bubblegum'
-" Promptline - :PromptlineSnapshot! ~/Dotfiles/shell_prompt.sh airline
-" Promptline from airline
+" Promptline - :PromptlineSnapshot! ~/.shell_prompt.sh airline
+" -If shell is in tmux, don't show host and user
+fun! New_promptline_host(...)
+    " host is \h in bash, %m in zsh
+    return '$([[ -n ${TMUX-} ]] && exit 0; printf "%s" \\h)'
+endfun
+fun! New_promptline_user(...)
+    " user is \u in bash, %n in zsh
+    return '$([[ -n ${TMUX-} ]] && exit 0; printf "%s" \\u)'
+endfun
 let g:promptline_preset = {
-        \'a' : [ promptline#slices#host() ],
-        \'b' : [ promptline#slices#user(), promptline#slices#python_virtualenv() ],
+        \'a' : [ New_promptline_host() ],
+        \'b' : [ New_promptline_user(), promptline#slices#python_virtualenv() ],
         \'c' : [ promptline#slices#cwd() ],
-        \'y' : [ promptline#slices#vcs_branch() ],
-        \'warn' : [ promptline#slices#git_status() ]}
+        \'warn' : [ promptline#slices#vcs_branch(), promptline#slices#git_status() ]}
+" Tmuxline - :TmuxlineSnapshot! ~/.tmux_theme.sh airline
+let g:airline#extensions#tmuxline#enabled = 0
+let g:tmuxline_preset = {
+      \'a'    : '#S',
+      \'c'    : '#(hostname -I)',
+      \'win'  : ['#I #W'],
+      \'cwin' : ['#I #W', '#F'],
+      \'y'    : '#(whoami)',
+      \'z'    : ['#H']}
 
 
 " Key Mapping
