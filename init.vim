@@ -179,3 +179,4 @@ set textwidth=79
 set expandtab
 set autoindent
 set fileformat=unix
+set clipboard+=unnamedplus
