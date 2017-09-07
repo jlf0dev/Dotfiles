@@ -20,8 +20,11 @@ if dein#load_state('/home/jlf0/.config/nvim/dein')
   call dein#add('christoomey/vim-tmux-navigator')
 
   call dein#add('sbdchd/neoformat')
+
   call dein#add('Shougo/deoplete.nvim')
   call dein#add('zchee/deoplete-jedi')
+  call dein#add('HerringtonDarkholme/yats.vim')
+  call dein#add('mhartington/nvim-typescript')
 
   call dein#add('neomake/neomake')
 
@@ -159,7 +162,7 @@ inoremap jj <C-[>
 nnoremap H 0
 " -L to end of line
 nnoremap L $
-" -Unhighights the last search pattern register by hitting return
+" -Unhighights the last search pattern register by hitting space then return
 nnoremap <silent> <leader><CR> :noh<CR>
 " -FZF toggle
 nnoremap <silent> <leader>p :FZF<CR>
@@ -172,11 +175,9 @@ nnoremap <silent> <leader>t :NERDTreeToggle<CR>
 
 
 " Python development
-set tabstop=4
-set softtabstop=4
-set shiftwidth=4
-set textwidth=79
-set expandtab
+autocmd FileType python setlocal tabstop=4 softtabstop=4 shiftwidth=4 textwidth=79 expandtab
+" HTML development
+autocmd Filetype html setlocal ts=2 sts=2 sw=2
 set autoindent
 set fileformat=unix
 set clipboard+=unnamedplus
